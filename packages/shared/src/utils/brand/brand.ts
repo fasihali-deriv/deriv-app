@@ -70,7 +70,6 @@ export const getAppstorePlatforms = () => {
     const platform_data: Record<string, Record<string, string>> = config_data.platforms_appstore;
     return Object.keys(platform_data).map(key => platform_data[key]);
 };
-
 export const getPlatformSettingsAppstore = (platform_key: keyof TPlatformsAppstore): TPlatformAppstore => {
     return config_data.platforms_appstore[platform_key];
 };

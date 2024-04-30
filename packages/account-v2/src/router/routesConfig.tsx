@@ -1,3 +1,4 @@
+import EmailAndPasswords from 'src/pages/EmailAndPasswords/EmailAndPasswords';
 import { ACCOUNT_V2_ROUTES } from '../constants/routes';
 import { PersonalDetailsForm } from '../containers/PersonalDetailsForm';
 import { TradingAssessmentForm } from '../containers/TradingAssessmentForm';
@@ -49,7 +50,7 @@ export const routes = [
         routePath: ACCOUNT_V2_ROUTES.ProofOfIncome,
     },
     {
-        routeComponent: DummyRoute,
+        routeComponent: EmailAndPasswords,
         routeName: 'Email and passwords',
         routePath: ACCOUNT_V2_ROUTES.EmailAndPassword,
     },
