@@ -5,15 +5,21 @@ import { useStoreWalletAccountsList } from '@deriv/hooks';
 import { routes } from '@deriv/shared';
 import LanguageSettings from '../language-settings';
 import { mockStore, StoreProvider } from '@deriv/stores';
+import { useDevice } from '@deriv-com/ui';
 
 const mockedUseStoreWalletAccountsList = useStoreWalletAccountsList as jest.MockedFunction<
     typeof useStoreWalletAccountsList
 >;
 
-jest.mock('@deriv/shared', () => ({
-    ...jest.requireActual('@deriv/shared'),
-    isMobile: jest.fn(() => false),
+jest.mock('@deriv-com/ui', () => ({
+    ...jest.requireActual('@deriv-com/ui'),
+    useDevice: jest.fn(() => ({ isDesktop: true })),
 }));
+
+// jest.mock('@deriv/shared', () => ({
+//     ...jest.requireActual('@deriv/shared'),
+//     isMobile: jest.fn(() => false),
+// }));
 
 jest.mock('@deriv/translations', () => ({
     ...jest.requireActual('@deriv/translations'),
@@ -43,10 +49,11 @@ describe('LanguageSettings', () => {
             common: {
                 current_language: 'lang_1',
             },
-            ui: {
-                is_mobile: false,
-            },
         });
+    });
+
+    afterEach(() => {
+        jest.clearAllMocks();
     });
 
     const renderLanguageSettings = () => {
@@ -58,7 +65,7 @@ describe('LanguageSettings', () => {
     it('should render LanguageSettings', () => {
         renderLanguageSettings();
 
-        expect(screen.getByText('Select Language')).toBeInTheDocument();
+        expect(screen.getByText('Select language')).toBeInTheDocument();
 
         const flags_icons = screen.getAllByText('Flag Icon');
         const lang_1 = screen.getByText('Test Lang 1');
@@ -81,7 +88,8 @@ describe('LanguageSettings', () => {
     });
 
     it('should redirect in mobile view when the user tries to reach `/account/languages` route', () => {
-        mockRootStore.ui.is_mobile = true;
+        // mockRootStore.ui.is_mobile = true;
+        (useDevice as jest.Mock).mockReturnValue({ isDesktop: false });
         Object.defineProperty(window, 'location', {
             configurable: true,
             value: { pathname: routes.languages },
