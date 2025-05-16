@@ -94,6 +94,7 @@ const DerivEmail = observer(() => {
                     onClickSendEmail={() => mutate({ verify_email: email, type: 'request_email' })}
                     has_live_chat={true}
                     is_modal_when_mobile={true}
+                    user_email={email}
                 />
             </div>
             {is_error_modal_open && error && (

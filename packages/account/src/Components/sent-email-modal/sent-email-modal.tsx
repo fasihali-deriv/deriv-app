@@ -10,6 +10,7 @@ type TSentEmailModal = {
     is_modal_when_mobile?: boolean;
     is_open: boolean;
     has_live_chat?: boolean;
+    user_email?: string;
     onClickSendEmail: (prop?: string) => void;
     onClose: () => void;
 };
@@ -56,10 +57,10 @@ const SentEmailModal = ({
     has_live_chat = false,
     onClickSendEmail,
     onClose,
+    user_email,
 }: TSentEmailModal) => {
     const { isDesktop } = useDevice();
     const { localize } = useTranslations();
-
     const getSubtitle = () => {
         let subtitle: string | ReactElement = '';
         switch (identifier_title) {
@@ -83,7 +84,7 @@ const SentEmailModal = ({
                 );
                 break;
             case 'Change_Email':
-                subtitle = localize('Check your email and click the link in the email to proceed.');
+                subtitle = localize('We’ve sent a verification link to ') + user_email;
                 break;
             default:
                 subtitle = localize('Please click on the link in the email to reset your password.');
@@ -118,7 +119,7 @@ const SentEmailModal = ({
         <SendEmailTemplate
             className='sent-email'
             subtitle={getSubtitle()}
-            title={localize('We’ve sent you an email')}
+            title={localize('Verify your email')}
             lbl_no_receive={localize("Didn't receive the email?")}
             txt_resend={localize('Resend email')}
             txt_resend_in={localize('Resend email in')}
